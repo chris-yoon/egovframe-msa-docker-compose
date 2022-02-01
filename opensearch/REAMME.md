@@ -6,13 +6,19 @@
 - https://github.com/opensearch-project/OpenSearch-Dashboards
 - https://opensearch.org/docs/latest/clients/logstash/index/
 
-## docker-compose.yml
+## docker-compose.yml 확인
 
 elasticsearch 를 대체하는 opensearch, kibana 를 대체하는 opensearch-dashboards 그리고, logstash-oss-with-opensearch-output-plugin 의 도커 파일들을 하나로 묶어준다.
 
 - OpenSearch: Data store and search engine
 - OpenSearch Dashboards: Search frontend and visualizations
 - logstash-oss-with-opensearch-output-plugin: real-time event processing engine
+
+## 구동 (OpenSearch, OpenSearch Dashboards, Logstash)
+
+```
+docker-compose up -d
+```
 
 ## Logstash 확인
 
@@ -72,6 +78,17 @@ nc localhost 5001 < send-message-sample.json
 
 ```
 docker logs --tail 30 -f logstash
+
+[2022-02-01T18:29:15,127][WARN ][deprecation.logstash.codecs.jsonlines][main][00782acb5a7f7800ad3abe3f3cdb9bd203d3700b30ede21cdfbfeb1247906e9a] Relying on default value of `pipeline.ecs_compatibility`, which may change in a future major release of Logstash. To avoid unexpected changes when upgrading Logstash, please explicitly declare your desired ECS Compatibility mode.
+{
+      "@version" => "1",
+          "name" => "John",
+    "@timestamp" => 2022-02-01T09:29:15.137Z,
+          "port" => 59338,
+           "age" => 30,
+           "car" => nil,
+          "host" => "gateway"
+}
 ```
 
 ## OpenSearch Dashboards 확인
@@ -83,3 +100,21 @@ http://localhost:5601/
 ```
 
 - OpenSearch Dashboards > Discover 에서 확인할 수 있다.
+
+## logstash.conf 변경 적용
+
+logstash.conf를 변경한 후 적용하려면
+
+```
+docker stop logstash
+docker start logstash
+
+# 또는 restart
+docker restart logstash
+```
+
+## logstash 컨테이너 터미널 접속
+
+```
+docker exec -it logstash /bin/bash 
+```
