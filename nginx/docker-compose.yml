@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - type: bind
+        source: ${PWD}/messages
+        target: /usr/share/nginx/html/messages
