@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+
+  apigateway:
+    container_name: apigateway
+    image: trupia/msa-apigateway:k8s
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - ${HOME}/Projects/egovframe-msa/egovframe-msa-jenkins/egovframe-msa-volume:/usr/app/msa-attach-volume
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://192.168.100.24:8888
+      SPRING_PROFILES_ACTIVE: prod
+      EUREKA_INSTANCE_HOSTNAME: 192.168.100.24
+      APIGATEWAY_HOSTNAME: 192.168.100.24
+      APIGATEWAY_PORT: 8000
+      RABBITMQ_HOSTNAME: 192.168.100.24
+      ZIPKIN_HOSTNAME: 192.168.100.24
+      FILE_HOSTNAME: 192.168.100.24
+      LOGSTASH_HOSTNAME: 192.168.100.24
+      APP_HOME: /usr/app
+      TZ: Asia/Seoul
+
+
+networks:
+  default:
+    external:
+      name: egov-network

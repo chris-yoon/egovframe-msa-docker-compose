@@ -13,7 +13,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - "./init/:/docker-entrypoint-initdb.d/"
+      - "/Users/chrisyoon/mysql-3306-docker:/docker-entrypoint-initdb.d/"
     platform: linux/x86_64 #m1에서 플랫폼을 명시해주지 않으면 에러남
     ports:
       - "3306:3306"

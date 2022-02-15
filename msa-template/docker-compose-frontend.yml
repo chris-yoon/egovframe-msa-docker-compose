@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+
+  frontend-admin:
+    container_name: frontend-admin
+    ports:
+      - "3001:3001"
+    image: trupia/msa-fe-admin:prodlg
+    restart: always
+
+  frontend-portal:
+    container_name: frontend-portal
+    image: trupia/msa-fe-portal:prodlg
+    ports:
+      - "3002:3002"
+    restart: always
+
+networks:
+  default:
+    external:
+      name: egov-network

@@ -38,7 +38,7 @@ tcp 5001 로 json 요청을 listen 하고 있다가, 이벤트를 수신하면 s
 input {
   tcp {
     port => 5001
-    codec => json_lines
+    codec => json
   }
 }
 

@@ -1,0 +1,40 @@
+version: '3.2'
+services:
+  config:
+    container_name: config
+    image: trupia/msa-config:k8s
+    ports:
+      - "8888:8888"
+    restart: always
+    volumes:
+      - ${HOME}//Projects/egovframe-msa/egovframe-msa-jenkins/egovframe-msa-template-config/config:/usr/app/config # volume bind
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      ENCRYPT_KEY: token_secret
+      LOGSTASH_HOSTNAME: 192.168.100.24
+      SEARCH_LOCATION: file:///usr/app/config
+      RABBITMQ_HOSTNAME: 192.168.100.24
+      ZIPKIN_HOSTNAME: 192.168.100.24
+      TZ: Asia/Seoul
+    healthcheck:
+      test: curl -f http://192.168.100.24:8888/actuator/health || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  discovery:
+    container_name: discovery
+    image: trupia/msa-discovery:k8s
+    ports:
+      - "8761:8761"
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      EUREKA_INSTANCE_HOSTNAME: discovery
+      TZ: Asia/Seoul
+
+networks:
+  default:
+    external:
+      name: egov-network

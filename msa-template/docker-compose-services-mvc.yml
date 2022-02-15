@@ -1,0 +1,73 @@
+version: '3.2'
+services:
+
+  user-service:
+    container_name: user-service
+    ports:
+      - "4001:4001"
+    image: trupia/msa-user-service:k8s
+    restart: always
+    volumes:
+      - ${HOME}/Projects/egovframe-msa/egovframe-msa-jenkins/egovframe-msa-volume:/usr/app/msa-attach-volume
+    environment:
+      SERVER_PORT: 4001
+      SPRING_CLOUD_CONFIG_URI: http://192.168.100.24:8888
+      SPRING_PROFILES_ACTIVE: prod
+      APP_HOME: /usr/app
+      EUREKA_INSTANCE_HOSTNAME: 192.168.100.24
+      APIGATEWAY_HOSTNAME: 192.168.100.24
+      MYSQL_HOSTNAME: 192.168.100.24
+      RABBITMQ_HOSTNAME: 192.168.100.24
+      ZIPKIN_HOSTNAME: 192.168.100.24
+      LOGSTASH_HOSTNAME: 192.168.100.24
+      FILE_HOSTNAME: 192.168.100.24
+      TZ: Asia/Seoul
+
+  board-service:
+    container_name: board-service
+    image: trupia/msa-board-service:k8s
+    ports:
+      - "4002:4002"
+    restart: always
+    volumes:
+      - ${HOME}/Projects/egovframe-msa/egovframe-msa-jenkins/egovframe-msa-volume:/usr/app/msa-attach-volume
+    environment:
+      SERVER_PORT: 4002
+      SPRING_CLOUD_CONFIG_URI: http://192.168.100.24:8888
+      SPRING_PROFILES_ACTIVE: prod
+      APP_HOME: /usr/app
+      EUREKA_INSTANCE_HOSTNAME: 192.168.100.24
+      APIGATEWAY_HOSTNAME: 192.168.100.24
+      MYSQL_HOSTNAME: 192.168.100.24
+      RABBITMQ_HOSTNAME: 192.168.100.24
+      ZIPKIN_HOSTNAME: 192.168.100.24
+      LOGSTASH_HOSTNAME: 192.168.100.24
+      FILE_HOSTNAME: 192.168.100.24
+      TZ: Asia/Seoul
+
+  portal-service:
+    container_name: portal-service
+    image: trupia/msa-portal-service:k8s
+    ports:
+      - "4003:4003"
+    restart: always
+    volumes:
+      - ${HOME}/Projects/egovframe-msa/egovframe-msa-jenkins/egovframe-msa-volume:/usr/app/msa-attach-volume
+    environment:
+      SERVER_PORT: 4003
+      SPRING_CLOUD_CONFIG_URI: http://192.168.100.24:8888
+      SPRING_PROFILES_ACTIVE: prod
+      APP_HOME: /usr/app
+      EUREKA_INSTANCE_HOSTNAME: 192.168.100.24
+      APIGATEWAY_HOSTNAME: 192.168.100.24
+      MYSQL_HOSTNAME: 192.168.100.24
+      RABBITMQ_HOSTNAME: 192.168.100.24
+      ZIPKIN_HOSTNAME: 192.168.100.24
+      LOGSTASH_HOSTNAME: 192.168.100.24
+      FILE_HOSTNAME: 192.168.100.24
+      TZ: Asia/Seoul
+
+networks:
+  default:
+    external:
+      name: egov-network
